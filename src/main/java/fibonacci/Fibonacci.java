@@ -1,6 +1,8 @@
 package fibonacci;
 
-
+/**
+ * Static utility function provide utility to calculate fibonacci array.
+ */
 class Fibonacci {
     static long[] fibonacciGenerator(int n) throws InvalidArgumentException{
         if (n < 0) throw new InvalidArgumentException();

@@ -12,6 +12,9 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
+/**
+ * Error controller
+ */
 @RestController
 @RequestMapping("/error")
 public class MyErrorController implements ErrorController {
@@ -29,9 +32,14 @@ public class MyErrorController implements ErrorController {
         return "/error";
     }
 
+    /**
+     * Display the error as JSON
+     * @param aRequest the coming request.
+     * @return the map that contains the error message.
+     */
     @RequestMapping
     public Map<String, Object> error(HttpServletRequest aRequest){
-        Map<String, Object> body = getErrorAttributes(aRequest,getTraceParameter(aRequest));
+        Map<String, Object> body = getErrorAttributes(aRequest, getTraceParameter(aRequest));
         String trace = (String) body.get("trace");
         if (trace != null) {
             String[] lines = trace.split("\n\t");
@@ -40,14 +48,22 @@ public class MyErrorController implements ErrorController {
         return body;
     }
 
+    /**
+     * Get if the error message contains stack trace
+     * @param request the coming request
+     * @return boolean indicates whether contains stack trance
+     */
     private boolean getTraceParameter(HttpServletRequest request) {
         String parameter = request.getParameter("trace");
-        if (parameter == null) {
-            return false;
-        }
-        return !"false".equals(parameter.toLowerCase());
+        return parameter != null && !"false".equals(parameter.toLowerCase());
     }
 
+    /**
+     * Extract attributes from request.
+     * @param aRequest the coming request.
+     * @param includeStackTrace boolean get from the request that whether contains stack trace.
+     * @return the map of attributes extracted.
+     */
     private Map<String, Object> getErrorAttributes(HttpServletRequest aRequest, boolean includeStackTrace) {
         RequestAttributes requestAttributes = new ServletRequestAttributes(aRequest);
         return errorAttributes.getErrorAttributes(requestAttributes, includeStackTrace);
