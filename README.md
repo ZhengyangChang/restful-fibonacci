@@ -15,6 +15,13 @@ You can run it directly by typing
 ./gradlew bootRun
 ```
 
+or build it first and run the jar
+
+```
+./gradlew build
+java -jar build/libs/restful-fibonacci-1.0-SNAPSHOT.jar
+```
+
 Spring will start the service at localhost:8080
 
 Then visit `http://localhost:8080/fibonacci` in your browser to see the result.
